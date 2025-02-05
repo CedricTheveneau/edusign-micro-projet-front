@@ -1,0 +1,338 @@
+/**---------- Fonts import ----------**/
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
+
+
+/* Numbers animation setup */
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+/**---------- Variables definition ----------**/
+:root {
+  --themeLight: #F7F6F2;
+  --themeDark: #13323D;
+  --themeAccent: #FFD68B;
+  --themeAccentLight: #FEE3AB;
+  --goldenRatio: 1.618;
+  --goldenRatioHalf: var(--goldenRatio) / 2;
+  --h1Size: 32.4px;
+  --h1Weight: 600;
+  --h2Size: 21.2px;
+  --h2Weight: 400;
+  --h3Size: 16px;
+  --h3Weight: 300;
+  --textSize: 14px;
+  --textWeight: 200;
+  --ctaWeight: 500;
+  --headings: "Manrope";
+  --body: "Inter";
+}
+
+/**---------- Reset ----------**/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--body);
+  text-decoration: none;
+  scroll-behavior: smooth;
+}
+
+/**---------- Specific styles ----------**/
+button {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/**---------- General styles ----------**/
+h1,
+h2,
+h3,
+p,
+a,
+span,
+ul,
+ol,
+li {
+  color: var(--themeDark);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--headings), sans-serif;
+}
+
+h1 {
+  font-size: var(--h1Size);
+  font-weight: var(--h1Weight);
+}
+
+h2 {
+  font-size: var(--h2Size);
+  font-weight: var(--h2Weight);
+  opacity: 85%;
+}
+
+h3 {
+  font-size: var(--h3Size);
+  font-weight: var(--h3Weight);
+  color: var(--themeDark70);
+}
+
+p {
+  opacity: 0.75;
+}
+
+p,
+label {
+  font-family: var(--body), sans-serif;
+  font-weight: var(--textWeight);
+  font-size: var(--textSize);
+}
+
+p>a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+p>span {
+  font-family: var(--body), sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/** Styling **/
+
+body {
+  background-color: var(--themeLight);
+  position: relative;
+  height: 100dvh;
+  >.home {
+    padding: 20px 10px 109px;
+    display: grid;
+    gap: 30px;
+    >.heading {
+      display: grid;
+      gap: 5px;
+      >h1 {
+        width: fit-content;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          width: 100%;
+          height: 10px;
+          bottom: 5px;
+          background-color: var(--themeAccent);
+        }
+      }
+      >p {
+        font-size: var(--h3Size);
+        font-weight: var(--h3Weight);
+      }
+    }
+    >.filtersWrapper {
+      display: grid;
+      gap: 10px;
+      >h2 {
+        width: fit-content;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          width: 100%;
+          height: 10px;
+          bottom: 2.5px;
+          background-color: var(--themeAccentLight);
+        }
+      }
+      >.filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        >label {
+          font-weight: var(--ctaWeight);
+          padding: 12px;
+          border-radius: 100px;
+          color: var(--themeDark);
+          border: 1px solid var( --themeDark);
+          transition: background-color 250ms ease-in-out, color 250ms ease-in-out;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          >svg {
+            display: none;
+          }
+          &:has(:checked) {
+            color: var(--themeLight);
+            background-color: var(--themeDark);
+            >svg {
+              display: block;
+            }
+          }
+          >input {
+            display: none;
+          }
+        }
+      }
+      >.searchbar {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid var(--themeDark);
+        border-radius: 100px;
+        overflow: hidden;
+        height: 47px;
+        >input {
+          width: 100%;
+          border: transparent;
+          background-color: transparent;
+          padding: 20px;
+          color: var(--themeDark);
+          &::placeholder {
+            opacity: 0.6;
+          }
+        }
+        >button {
+          border: transparent;
+          background-color: var(--themeDark);
+          border-radius: 100px;
+          width: 47px;
+          aspect-ratio: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          >svg {
+            width: 25px;
+          }
+        }
+      }
+    }
+    >.offers {
+      display: grid;
+      gap: 15px;
+      border-radius: 10px;
+      height: 100%;
+      >.offer {
+        background-color: var(--themeAccentLight);
+        padding: 10px;
+        border-radius: 10px;
+        display: grid;
+        gap: 10px;
+        position: relative;
+        >.save {
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          >button {
+            border: transparent;
+          background-color: transparent;
+          scale: 0.7;
+          >svg {
+            fill: var(--themeDark);
+            >path {
+              fill: var(--themeDark);
+            }
+          }
+          }
+        }
+        >.mainInfo {
+          display: grid;
+          gap: 5px;
+          >p:nth-child(1) {
+            font-size: var(--h2Size);
+            font-weight: var(--h2Weight);
+            opacity: 1;
+          }
+          >p:nth-child(2) {
+            font-size: var(--h3Size);
+            font-weight: var(--h3Weight);
+          }
+        }
+        >.bottom {
+          display: flex;
+          gap: 10px;
+          justify-content: space-between;
+          align-items: end;
+          >.secondaryInfo {
+            display: grid;
+            gap: 5px;
+            >p {
+              font-size: var(--textSize);
+            }
+          }
+          >.apply {
+            >button {
+              border: 1px solid var(--themeDark);
+              border-radius: 100px;
+              padding: 11px;
+              background-color: var(--themeDark);
+              color: var(--themeAccent);
+              font-weight: var(--ctaWeight);
+              font-size: var(--textSize);
+              transition: background-color 250ms ease-in-out, color 250ms ease-in-out;
+              &:disabled {
+                color: var(--themeDark);
+                background-color: transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  >nav {
+    position: absolute;
+    width: calc(100dvw - 44px);
+    bottom: 22px;
+    left: 50%;
+    translate: -50% 0%;
+    padding: 13px;
+    background-color: var(--themeDark);
+    border-radius: 100px;
+    overflow: hidden;
+    >ul {
+    display: flex;
+    justify-content: space-between;
+    >li {
+      position: relative;
+      &::before {
+        content: '';
+      position: absolute;
+      z-index: -1;
+      width: 45px;
+      height: 45px;
+      border: 1px solid var(--themeAccent);
+      border-radius: 100px;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      opacity: 0;
+      transition: opacity 250ms ease-in-out;
+      }
+      &:has(.active)::before {
+        opacity: 1;
+      }
+    }
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+}

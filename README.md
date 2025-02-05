@@ -1,2 +1,1 @@
-# edusign-micro-projet-front
-Front-end part of the Edusign Micro-Project
+Visit [https://github.com/CedricTheveneau/edusign-micro-projet](https://github.com/CedricTheveneau/edusign-micro-projet) to see everything there is to know regaridng this project.
