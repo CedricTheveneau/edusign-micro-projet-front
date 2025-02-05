@@ -15,11 +15,13 @@ export function generateMetadata() {
   };
 }
 
-export default function Calendar() {
+export default function Inbox() {
   return (
-    <main className="calendar">
-      <h2>Messagerie</h2>
-      <p>Bienvenue sur la page "Messagerie" !</p>
+    <main className="home">
+      <div className="heading">
+        <h1>Messagerie</h1>
+        <p>Bienvenue sur la page "Messagerie" !</p>
+      </div>
     </main>
   );
 }

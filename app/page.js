@@ -4,10 +4,128 @@ import { useState, useEffect } from "react";
 import { useGlobalContext } from "./layout/GlobalContext";
 
 export default function Home() {
-  const { filters, query, setQuery, userId } = useGlobalContext();
+  const {
+    filters,
+    query,
+    setQuery,
+    userToken,
+    userId,
+    userSkills,
+    apiGateway,
+  } = useGlobalContext();
   const [offers, setOffers] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
+
+  const handleApply = async (event, offerId) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`${apiGateway}/offers/apply/${offerId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Une erreur est survenue lors de la candidature");
+      }
+
+      const updatedOfferApplied = await response.json();
+
+      setOffers((prevRecommendations) =>
+        prevRecommendations.map((offer) =>
+          offer._id === offerId
+            ? { ...offer, applied: updatedOfferApplied }
+            : offer
+        )
+      );
+
+      try {
+        const response = await fetch(
+          `${apiGateway}/auth/applyOffer/${userId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({ appliedOffers: offerId }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Une erreur est survenue lors de l'enregistrement de la candidature sur le profil"
+          );
+        }
+      } catch (error) {
+        console.error("Erreur lors de la candidature:", error);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la candidature:", error);
+    }
+  };
+
+  const handleSave = async (event, offerId) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`${apiGateway}/offers/save/${offerId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          "Une erreur est survenue lors de la sauvegarde de l'offre"
+        );
+      }
+
+      const updatedOfferSave = await response.json();
+
+      setOffers((prevRecommendations) =>
+        prevRecommendations.map((offer) =>
+          offer._id === offerId ? { ...offer, saved: updatedOfferSave } : offer
+        )
+      );
+
+      try {
+        const response = await fetch(`${apiGateway}/auth/saveOffer/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({ savedOffers: offerId }),
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "Une erreur est survenue lors de la sauvegarde de l'offre sur le profil"
+          );
+        }
+      } catch (error) {
+        console.error("Erreur lors de la sauvegarde:", error);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la sauvegarde:", error);
+    }
+  };
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilters((prevFilters) => {
+      if (prevFilters.includes(filter)) {
+        return prevFilters.filter((f) => f !== filter);
+      }
+      return [...prevFilters, filter];
+    });
+  };
 
   useEffect(() => {
     if (!offers || offers.length === 0) {
@@ -20,11 +138,8 @@ export default function Home() {
       updatedOffers = updatedOffers.filter((post) =>
         selectedFilters.some(
           (filter) =>
-            post.title === filter ||
-            post.location === filter ||
-            post.type === filter ||
-            post.contract === filter ||
-            post.company === filter
+            post.type?.toLowerCase() === filter.toLowerCase() ||
+            post.contract?.toLowerCase() === filter.toLowerCase()
         )
       );
     }
@@ -43,6 +158,39 @@ export default function Home() {
     setFilteredOffers(updatedOffers);
   }, [query, selectedFilters, offers]);
 
+  useEffect(() => {
+    const fetchReco = async () => {
+      try {
+        const recommendationsResponse = await fetch(
+          `${apiGateway}/offers/recommendations/by-skills?skills=${userSkills.join(
+            ","
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!recommendationsResponse.ok) {
+          throw new Error(
+            "Une erreur est survenue lors de la récupération de recommandations d'offres"
+          );
+        }
+
+        const recommendations = await recommendationsResponse.json();
+
+        setOffers(recommendations);
+        setFilteredOffers(recommendations);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des offres:", error);
+      }
+    };
+    fetchReco();
+  }, [userSkills, userToken]);
+
   return (
     <main className="home">
       <div className="heading">
@@ -55,7 +203,11 @@ export default function Home() {
           {filters && filters.length > 0 ? (
             filters.map((filter, index) => (
               <label key={index}>
-                <input type="checkbox" value={filter} />
+                <input
+                  type="checkbox"
+                  value={filter}
+                  onChange={() => handleFilterChange(filter)}
+                />
                 {filter}
                 <svg
                   width="12"
@@ -101,15 +253,18 @@ export default function Home() {
       <div className="offers">
         {filteredOffers && filteredOffers.length > 0 ? (
           filteredOffers.map((offer, index) => (
-            <div className="offer">
-              <form className="save">
+            <div className="offer" key={index}>
+              <form
+                className="save"
+                onSubmit={(event) => handleSave(event, offer._id)}
+              >
                 <button
-                  className={offer.saves.includes(userId) ? "active" : ""}
+                  className={offer.saved.includes(userId) ? "active" : ""}
                   type="submit"
                 >
-                  {article.savedNumber.includes(userId) ? (
+                  {offer.saved.includes(userId) ? (
                     <svg
-                      alt="Icône d'ajout aux articles enregistrés"
+                      alt="Icône d'ajout aux offress enregistrés"
                       width="28"
                       height="38"
                       viewBox="0 0 28 38"
@@ -123,7 +278,7 @@ export default function Home() {
                     </svg>
                   ) : (
                     <svg
-                      alt="Icône d'ajout aux articles enregistrés"
+                      alt="Icône d'ajout aux offress enregistrés"
                       width="30"
                       height="40"
                       viewBox="0 0 30 40"
@@ -149,12 +304,15 @@ export default function Home() {
                     {offer.type} | {offer.contract}
                   </p>
                 </div>
-                <form className="apply">
+                <form
+                  className="apply"
+                  onSubmit={(event) => handleApply(event, offer._id)}
+                >
                   <button
-                    disabled={offer.applications.includes(userId)}
+                    disabled={offer.applied.includes(userId)}
                     type="submit"
                   >
-                    {offer.applications.includes(userId)
+                    {offer.applied.includes(userId)
                       ? "Candidature envoyée"
                       : "Candidature rapide"}
                   </button>
