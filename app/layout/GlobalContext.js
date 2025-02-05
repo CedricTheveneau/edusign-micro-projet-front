@@ -16,6 +16,7 @@ export const GlobalProvider = ({ children }) => {
   const [userId, setUserId] = useState(false);
   const [userUsername, setUserUsername] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [userSkills, setUserSkills] = useState([])
   const [currentPath, setCurrentPath] = useState(null);
   const [filters, setFilters] = useState(['Full Remote', "Hybrid Remote", "CDI", "Alternance", "Présentiel", "CDD"])
   const [query, setQuery] = useState("");
@@ -46,18 +47,8 @@ export const GlobalProvider = ({ children }) => {
         setUserId(user._id);
         setUserRole(user.role);
         setUserUsername(user.username);
-        if (userRole === 'admin') {
-            fetch(
-              `${process.env.NEXT_PUBLIC_API_GATEWAY_URI}/docs`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-        }
-      } else {
+        setUserSkills(user.skills)
+       } else {
         localStorage.removeItem("user");
         setIsAuthenticated(false);
       }
@@ -71,7 +62,7 @@ export const GlobalProvider = ({ children }) => {
   }, [pathname]);
 
   return (
-    <GlobalContext.Provider value={{formatDate, userToken, isAuthenticated, userId, userUsername, userRole, query, currentPath, apiGateway, setIsAuthenticated, setUserId, setUserUsername, setUserRole, setQuery, setCurrentPath, filters, setFilters }}>
+    <GlobalContext.Provider value={{formatDate, userToken, isAuthenticated, userId, userUsername, userRole, query, currentPath, apiGateway, setIsAuthenticated, setUserId, setUserUsername, setUserRole, setQuery, setCurrentPath, filters, setFilters, userSkills, setUserSkills }}>
       {children}
     </GlobalContext.Provider>
   );

@@ -20,12 +20,14 @@ export function generateMetadata() {
 
 export default function SignUp() {
   return (
-    <main className="signup fit-mobile">
-      <h2>Créer un compte<span style={{ color: "var(--themeAccent)" }}>.</span></h2>
+    <main className="home">
+      <div className="heading">
+      <h1>Créer un compte</h1>
+      </div>
       <Form />
-      <div className="signupPrompt">
-        <h3>Vous avez déjà un compte ?</h3>
-        <Link className="link" href="/login">Connectez-vous !</Link>
+      <div className="filtersWrapper">
+      <h2 style={{ margin: "auto"}}>Vous avez déjà un compte ?</h2>
+      <Link className="link" href="/login">Connectez-vous !</Link>
       </div>
     </main>
   );

@@ -17,9 +17,11 @@ export function generateMetadata() {
 
 export default function Calendar() {
   return (
-    <main className="calendar">
-      <h2>Calendrier</h2>
-      <p>Bienvenue sur la page "Calendrier" !</p>
+    <main className="home">
+      <div className="heading">
+        <h1>Calendrier</h1>
+        <p>Bienvenue sur la page "Calendrier" !</p>
+      </div>
     </main>
   );
 }
