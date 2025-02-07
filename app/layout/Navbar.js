@@ -14,7 +14,6 @@ export default function Navbar() {
 
   useEffect(() => {
     if (currentPath) {
-      // Cette fonction sera appelée à chaque fois que isAuthenticated change
       if (currentPath === "/") {
         setBlogClassList("link active");
         setCalendarClassList("link");
@@ -55,7 +54,6 @@ export default function Navbar() {
   }, [currentPath]);
 
   useEffect(() => {
-    // Cette fonction sera appelée à chaque fois que isAuthenticated change
     if (isAuthenticated) {
       setProfileLink(`/profile/${userUsername}`);
     } else {

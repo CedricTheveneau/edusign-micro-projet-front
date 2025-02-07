@@ -3,14 +3,11 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-// Créer le contexte
 const GlobalContext = createContext();
 
-// Hook personnalisé pour utiliser le contexte
 export const useGlobalContext = () => useContext(GlobalContext);
 
 export const GlobalProvider = ({ children }) => {
-  // Gérer l'état d'authentification avec un state
   const [userToken, setUserToken] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState(false);

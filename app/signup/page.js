@@ -1,22 +1,17 @@
 import Link from "next/link";
 import { Form } from "./form";
 
-export function generateMetadata() {
-  const pageTitle = "Créer un Compte | Edusign";
-  const pageDescription = "Rejoignez les autres étudiants de votre campus et accédez à des fonctionnalités exclusives comme consulter et candidater à des offres d'emploi personnalisées et bénéificier de votre propre profil personnalisable ! Créez un compte et bénéficiez de tout ce que EduSign a à vous offrir !";
-
-  return {
-    title: pageTitle,
-    description: pageDescription,
-    openGraph: {
-      title: pageTitle,
-      description: pageDescription,
-      type: "website",
-      url: "http://localhost:3000/signup",
-      site_name: "Edusign Micro-Project",
-    },
-  };
-}
+export const metadata = {
+  title: "Créer un Compte | Edusign",
+  description: "Rejoignez les autres étudiants de votre campus et accédez à des fonctionnalités exclusives comme consulter et candidater à des offres d'emploi personnalisées et bénéificier de votre propre profil personnalisable ! Créez un compte et bénéficiez de tout ce que EduSign a à vous offrir !",
+  openGraph: {
+    title: "Créer un Compte | Edusign",
+    description: "Rejoignez les autres étudiants de votre campus et accédez à des fonctionnalités exclusives comme consulter et candidater à des offres d'emploi personnalisées et bénéificier de votre propre profil personnalisable ! Créez un compte et bénéficiez de tout ce que EduSign a à vous offrir !",
+    type: "website",
+    url: "http://localhost:3000/signup",
+    site_name: "Edusign Micro-Project",
+  },
+};
 
 export default function SignUp() {
   return (

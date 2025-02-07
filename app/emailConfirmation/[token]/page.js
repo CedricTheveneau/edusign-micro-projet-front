@@ -52,22 +52,25 @@ export default function Login({ params }) {
   }, [token])
 
   return (
-    <main className="confirmPopUp">
-    {data !== null ? <><h2>{data.message.title}</h2>
+
+    <main className="home">
+      <div className="heading">
+      {data !== null ? <><h1>{data.message.title}</h1>
       <p>{data.message.content ? data.message.content : data.message}</p>
-      {data.message.content ? <div className="signupPrompt">
+      {data.message.content ? <>
       <p>Vous allez être redirigé très prochainement vers la page de connexion.</p>
       <p>Si après 15 secondes, vous n&apos;avez pas été redirigé vers la page de connexion, cliquez sur le lien ci-dessous.</p>
       <Link className="link" href="/login">Je me connecte !</Link>
-      </div> 
-      : data.message &&
-      <div className="signupPrompt">
+      </>
+      : data.message !== null &&
+      <>
       <p>Une erreur s&apos;est produite lors de la vérification de votre compte. Veuillez réessayer ultérieurement</p>
       <p>Vous serez redirigé vers la page de connexion d&apos;ici 15 secondes. Passé ce délai, si vous n&apos;avez pas été redirigé, cliquez sur le lien ci-dessous pour retourner à l&apos;accueil.</p>
       <Link className="link" href="/">Je retourne à l&apos;accueil !</Link>
-      </div>
+      </>
       }
       </> : <p>Confirmation de l&apos;email en cours...</p>}
+      </div>
     </main>
   );
 }

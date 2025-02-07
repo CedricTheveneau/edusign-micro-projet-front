@@ -1,22 +1,12 @@
 /**---------- Fonts import ----------**/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
 
-
-/* Numbers animation setup */
-@property --num {
-  syntax: "<integer>";
-  initial-value: 0;
-  inherits: false;
-}
-
 /**---------- Variables definition ----------**/
 :root {
   --themeLight: #F7F6F2;
   --themeDark: #13323D;
   --themeAccent: #FFD68B;
   --themeAccentLight: #FEE3AB;
-  --goldenRatio: 1.618;
-  --goldenRatioHalf: var(--goldenRatio) / 2;
   --h1Size: 32.4px;
   --h1Weight: 600;
   --h2Size: 21.2px;
@@ -150,6 +140,18 @@ body {
       >p {
         font-size: var(--h3Size);
         font-weight: var(--h3Weight);
+      }
+
+      >.link {
+        background-color: transparent;
+        border: 1px solid var(--themeDark);
+        color: var(--themeDark);
+        font-size: var(--textSize);
+        font-weight: var(--ctaWeight);
+        border-radius: 100px;
+        padding: 15px;
+        width: fit-content;
+        margin: auto;
       }
     }
 

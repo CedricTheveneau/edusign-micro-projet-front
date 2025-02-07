@@ -9,7 +9,7 @@ export function Form() {
  const [password, setPassword] = useState("");
  const [errorMessage, setErrorMessage] = useState("");
  const router = useRouter();
- const { setIsAuthenticated, setUserId, setUserRole, setUserUsername, currentPath, setUserSkills } = useGlobalContext();
+ const { setIsAuthenticated, setUserId, setUserRole, setUserUsername, currentPath, setUserSkills, apiGateway } = useGlobalContext();
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -17,7 +17,7 @@ export function Form() {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_GATEWAY_URI}/auth/login`,
+      `${apiGateway}/auth/login`,
       {
         method: "POST",
         headers: {
