@@ -55,7 +55,7 @@ export default function Login({ params }) {
 
     <main className="home">
       <div className="heading">
-      {data !== null ? <><h1>{data.message?.title}</h1>
+      {data !== null ? <><h1>{data.message.title && data.message.title}</h1>
       <p>{data.message.content ? data.message.content : data.message}</p>
       {data.message.content ? <>
       <p>Vous allez être redirigé très prochainement vers la page de connexion.</p>
