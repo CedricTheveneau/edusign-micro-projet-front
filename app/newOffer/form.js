@@ -4,23 +4,23 @@ import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../layout/GlobalContext";
 
 export function Form() {
-  const { userToken } = useGlobalContext();
+  const { userToken, apiGateway } = useGlobalContext();
 
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
-  const [type, setType] = useState("");
+  const [contractTypes, setContractTypes] = useState([
+    "full remote",
+    "hybrid remote",
+    "présentiel",
+  ]);
+  const [type, setType] = useState(contractTypes[0]);
   const [contractOptions, setContractOptions] = useState([
     "CDD",
     "CDI",
     "alternance",
     "freelance",
   ]);
-  const [contractTypes, setContractTypes] = useState([
-    "full remote",
-    "hybrid remote",
-    "présentiel",
-  ]);
-  const [contract, setContract] = useState("");
+  const [contract, setContract] = useState(contractOptions[0]);
   const [location, setLocation] = useState("");
   const [skills, setSkills] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
@@ -33,7 +33,7 @@ export function Form() {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_GATEWAY_URI}/offers/create`,
+        `${apiGateway}/offers/create`,
         {
           method: "POST",
           headers: {
@@ -51,12 +51,12 @@ export function Form() {
         }
       );
 
-      if (!response.ok) {
+      if (response.ok) {
+        router.push("/");
+      } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const data = await response.json();
-      router.push("/");
+      
     } catch (error) {
       setResponseMessage("Erreur lors de la publication de l'offre");
       console.error("Erreur lors de lla publication de l'offre :", error);

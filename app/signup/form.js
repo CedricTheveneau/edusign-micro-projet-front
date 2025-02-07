@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGlobalContext } from "../layout/GlobalContext";
 
 export function Form() {
+
+ const { apiGateway } = useGlobalContext();
+
  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +38,7 @@ export function Form() {
 
    try {
      const response = await fetch(
-       `${process.env.NEXT_PUBLIC_API_GATEWAY_URI}/auth/register`,
+       `${apiGateway}/auth/register`,
        {
          method: "POST",
          headers: {
@@ -44,12 +48,12 @@ export function Form() {
        }
      );
 
-     if (!response.ok) {
-       throw new Error(`HTTP error! status: ${response.status}`);
-     }
-
-     const data = await response.json();
-     router.push("/login");
+     if (response.ok) {
+      router.push("/login");
+    } else {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
    } catch (error) {
      setResponseMessage("Erreur lors de l'inscription");
      console.error("Erreur lors de la requête de création de compte :", error);

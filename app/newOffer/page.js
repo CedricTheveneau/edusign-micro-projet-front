@@ -1,22 +1,16 @@
-import Link from "next/link";
 import { Form } from "./form";
 
-export function generateMetadata() {
-  const pageTitle = "Publiez une offre d'emploi | Edusign";
-  const pageDescription = "Proposez des missions à des étudiants en recherche d'une première expérience enrichissante !";
-
-  return {
-    title: pageTitle,
-    description: pageDescription,
-    openGraph: {
-      title: pageTitle,
-      description: pageDescription,
-      type: "website",
-      url: "http://localhost:3000/newOffer",
-      site_name: "Edusign Micro-Project",
-    },
-  };
-}
+export const metadata = {
+  title: "Publiez une offre d'emploi | Edusign",
+  description: "Proposez des missions à des étudiants en recherche d'une première expérience enrichissante !",
+  openGraph: {
+    title: "Publiez une offre d'emploi | Edusign",
+    description: "Proposez des missions à des étudiants en recherche d'une première expérience enrichissante !",
+    type: "website",
+    url: "http://localhost:3000/newOffer",
+    site_name: "Edusign Micro-Project",
+  },
+};
 
 export default function SignUp() {
   return (
